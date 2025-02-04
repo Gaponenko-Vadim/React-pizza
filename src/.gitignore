@@ -1,0 +1,25 @@
+# Исключаем зависимости
+node_modules/
+
+# Исключаем кэш и временные файлы
+dist/
+.build/
+.cache/
+
+# Файлы окружения (конфиденциальные данные)
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Файлы редакторов и системных настроек
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
