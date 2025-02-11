@@ -1,24 +1,39 @@
 import { useState } from "react";
 import plus from "../../public/Plus.svg";
+import { useSelector, useDispatch } from "react-redux";
+import { addPizza } from "../redux/slice/pizzaSlice";
+import { RootState } from "../redux/store";
 
 const PizzaBlock = ({
   price,
   title,
   types,
   sizes,
+  id,
 }: {
   price: number;
   title: string;
   types: number[];
   sizes: number[];
+  id: number;
 }) => {
   const testo = ["тонкое", "традиционное"];
-  const [counter, setCounter] = useState(0);
   const [testoForm, setTestoform] = useState(0);
   const [sizesI, setSizesI] = useState(0);
+  const dispatch = useDispatch();
+  const pizzaConter = useSelector((state: RootState) => state.pizzaSlice);
+  const counter = pizzaConter.find((pizza) => id === pizza.id);
 
   const counterFunc = () => {
-    setCounter(counter + 1);
+    const item = {
+      price,
+      title,
+      types,
+      sizes,
+      id,
+      count: 1,
+    };
+    dispatch(addPizza(item));
   };
 
   return (
@@ -64,7 +79,7 @@ const PizzaBlock = ({
           >
             <img src={plus} alt="плюс" />
             <span>Добавить</span>
-            <i>{counter}</i>
+            {counter ? <i> {counter.count} </i> : ""}
           </div>
         </div>
       </div>

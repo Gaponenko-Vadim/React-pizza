@@ -1,28 +1,40 @@
-import { useState, FC } from "react";
+import { useState, FC, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SortItem } from "../types/types";
 import { RootState } from "../redux/store";
 import { activeSort } from "../redux/slice/filter";
+export const sortOption = [
+  { name: "популярности(топ)", sortProperty: "rating" },
+  { name: "популярности(не топ)", sortProperty: "-rating" },
+  { name: "цене(дорогие)", sortProperty: "price" },
+  { name: "цене(не дорогие)", sortProperty: "-price" },
+  { name: "алфавиту(а-я)", sortProperty: "title" },
+  { name: "алфавиту(я-а)", sortProperty: "-title" },
+];
 
 const Sort: FC = () => {
+  const refSort = useRef<HTMLDivElement | null>(null);
   const active = useSelector((store: RootState) => store.filter.sortItem);
   const dispach = useDispatch();
 
   const [open, setOpen] = useState(false);
-  const sortOption = [
-    { name: "популярности(топ)", sortProperty: "rating" },
-    { name: "популярности(не топ)", sortProperty: "-rating" },
-    { name: "цене(дорогие)", sortProperty: "price" },
-    { name: "цене(не дорогие)", sortProperty: "-price" },
-    { name: "алфавиту(а-я)", sortProperty: "title" },
-    { name: "алфавиту(я-а)", sortProperty: "-title" },
-  ];
+
   const openSortActive = (sortOption: SortItem) => {
     dispach(activeSort(sortOption));
-    setOpen(!open);
   };
+
+  useEffect(() => {
+    const handleClickMaunt = (event: MouseEvent) => {
+      if (refSort.current && !event.composedPath().includes(refSort.current)) {
+        setOpen(false);
+      }
+    };
+    document.body.addEventListener("click", handleClickMaunt);
+    return () => document.body.removeEventListener("click", handleClickMaunt);
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={refSort} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -44,7 +56,7 @@ const Sort: FC = () => {
           <ul>
             {sortOption.map((val) => (
               <li
-                key={active.sortProperty}
+                key={val.sortProperty}
                 onClick={() => openSortActive(val)}
                 className={val.name === active.name ? "active" : ""}
               >

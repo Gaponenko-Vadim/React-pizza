@@ -2,8 +2,16 @@ import LogoSvg from "/img/pizza-logo.svg";
 import sHeader from "../../public/sHeader.svg";
 import { Link } from "react-router-dom";
 import Search from "./Search";
-
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 const Header: React.FC = () => {
+  const pizzaConter = useSelector((state: RootState) => state.pizzaSlice);
+  const prices = pizzaConter.reduce((sum, pizza) => {
+    return pizza.price * pizza.count + sum;
+  }, 0);
+  const sumPizza = pizzaConter.reduce((sum, pizza) => {
+    return pizza.count + sum;
+  }, 0);
   return (
     <div className="header">
       <div className="container">
@@ -17,10 +25,10 @@ const Header: React.FC = () => {
         </Link>
         <div className="header__cart">
           <Link to="/cart.html" className="button button--cart">
-            <span>520 ₽</span>
+            <span>{prices}</span>
             <div className="button__delimiter"></div>
             <img src={sHeader} alt="Header" />
-            <span>3</span>
+            <span>{sumPizza | 0}</span>
           </Link>
         </div>
       </div>
