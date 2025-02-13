@@ -13,10 +13,10 @@ const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<LayoutMain />}>
-        <Route path="" element={<Home />} />
-        <Route path="cart.html" element={<Basket />} />
-        <Route path="*" element={<NotFond />} />
-        <Route path=":id" element={<PizzaFull />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/cart.html" element={<Basket />} />
+        <Route path="/*" element={<NotFond />} />
+        <Route path="/:id" element={<PizzaFull />} />
       </Route>
     </Routes>
   );
