@@ -3,6 +3,7 @@ import plus from "../../public/Plus.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { addPizza } from "../redux/slice/pizzaSlice";
 import { RootState } from "../redux/store";
+import { Link } from "react-router-dom";
 
 const PizzaBlock = ({
   price,
@@ -39,12 +40,15 @@ const PizzaBlock = ({
   return (
     <div className="pizza-block-wrapper">
       <div className="pizza-block">
-        <img
-          className="pizza-block__image"
-          src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-          alt="Pizza"
-        />
-        <h4 className="pizza-block__title">{title}</h4>
+        <Link to={"/" + id}>
+          {" "}
+          <img
+            className="pizza-block__image"
+            src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+            alt="Pizza"
+          />
+          <h4 className="pizza-block__title">{title}</h4>
+        </Link>
         <div className="pizza-block__selector">
           <ul>
             {types &&

@@ -1,10 +1,12 @@
 import LogoSvg from "/img/pizza-logo.svg";
 import sHeader from "../../public/sHeader.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Search from "./Search";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+
 const Header: React.FC = () => {
+  const location = useLocation();
   const pizzaConter = useSelector((state: RootState) => state.pizzaSlice);
   const prices = pizzaConter.reduce((sum, pizza) => {
     return pizza.price * pizza.count + sum;
@@ -23,13 +25,16 @@ const Header: React.FC = () => {
             <Search />
           </div>
         </Link>
+
         <div className="header__cart">
-          <Link to="/cart.html" className="button button--cart">
-            <span>{prices}</span>
-            <div className="button__delimiter"></div>
-            <img src={sHeader} alt="Header" />
-            <span>{sumPizza | 0}</span>
-          </Link>
+          {location.pathname !== "/cart.html" && (
+            <Link to="/cart.html" className="button button--cart">
+              <span>{prices}</span>
+              <div className="button__delimiter"></div>
+              <img src={sHeader} alt="Header" />
+              <span>{sumPizza | 0}</span>
+            </Link>
+          )}
         </div>
       </div>
     </div>
